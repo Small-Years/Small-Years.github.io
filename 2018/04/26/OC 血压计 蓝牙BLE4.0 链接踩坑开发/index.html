@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="CoolYang">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Objective_C">
+
+
+    <meta name="description" content="前言公司项目要连接第三方公司的血压计，由于从来没有做过和蓝牙有关的项目，好奇的心驱使下下也想顺便了解一下这方面的知识，于是主动向领导请求开发这个功能，经过4天的折腾，终于弄好了，（为什么要4天呢...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>iOS OC 血压计 蓝牙BLE4.0 设备连接 踩坑 开发 | CoolYang</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="CoolYang" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?a765f170cc69bc2954f3f01f54978f72";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://lc-8l5bg9d2.cn-n1.lcfile.com/05e59daa621d2143f473.png)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="CoolYang">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 内行看门道，外行看人行道~ </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">CoolYang</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS开发/"><i class="fa "></i>iOS开发</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/记录/"><i class="fa "></i>记录</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="iOS OC 血压计 蓝牙BLE4.0 设备连接 踩坑 开发">
+            
+	            iOS OC 血压计 蓝牙BLE4.0 设备连接 踩坑 开发
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/iOS开发/">iOS开发</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Objective-C/">Objective_C</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/04/26</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>367</strong>天之前发表，文中内容可能已经过时,可邮件联系博主更新，有小惊喜哦~
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>公司项目要连接第三方公司的血压计，由于从来没有做过和蓝牙有关的项目，好奇的心驱使下下也想顺便了解一下这方面的知识，于是主动向领导请求开发这个功能，经过4天的折腾，终于弄好了，（为什么要4天呢？TMD第三天才搞明白原来不是我代码不行，是他们给错文档了，MDZZ，强忍住骂娘的冲动。。。</p>
+<h1 id="蓝牙基础知识："><a href="#蓝牙基础知识：" class="headerlink" title="蓝牙基础知识："></a>蓝牙基础知识：</h1><h2 id="名词解释："><a href="#名词解释：" class="headerlink" title="名词解释："></a>名词解释：</h2><p><strong>BLE</strong>:(Bluetooth low energy)蓝牙4.0设备因为低耗电,也叫BLE<br><strong>peripheral,central</strong>:外设和中心设备,发起链接的是central(一般是指手机),被链接的设备是peripheral(运动手环)<br><strong>service and characteristic</strong>:(服务和特征)每个设备会提供服务和特征,类似于服务端的API,但是结构不同.每个设备会有很多服务,每个服务中包含很多字段,这些字段的权限一般分为读(read),写(write),通知(notify)几种,就是我们连接设备后具体需要操作的内容<br><strong>Description</strong>:每个characteristic可以对应一个或者多个Description用于描述characteristic的信息或属性(eg.范围,计量单位)</p>
+<h2 id="蓝牙开发的2种模式："><a href="#蓝牙开发的2种模式：" class="headerlink" title="蓝牙开发的2种模式："></a>蓝牙开发的2种模式：</h2><p><strong>中心模式</strong>：就是以你的app作为中心,连接其他的外设的场景（本次项目使用，个人认为大部分的情况下都是这种模式）<br><strong>外设模式</strong>：使用手机作为外设连接其他中心设备操作的场景</p>
+<h2 id="服务和特征-service-and-characteristic"><a href="#服务和特征-service-and-characteristic" class="headerlink" title="服务和特征(service and characteristic)"></a>服务和特征(service and characteristic)</h2><p>每个设备都会有1个or多个服务<br>每个服务里都会有1个or多个特征<br>特征就是具体键值对,提供数据的地方<br>每个特征属性分为:读,写,通知等等</p>
+<h2 id="外设、服务（service）、特征（characteristic）的关系"><a href="#外设、服务（service）、特征（characteristic）的关系" class="headerlink" title="外设、服务（service）、特征（characteristic）的关系:"></a>外设、服务（service）、特征（characteristic）的关系:</h2><p>建议需要蓝牙开发的小伙伴，先去App Store下载LightBlue这个软件，他的主要作用就是连接上蓝牙外设，并且告诉你，这个蓝牙设备都支持什么服务，每个服务下面有哪些特征，甚至还可以持续监听蓝牙设备发出的数据，你也可以向蓝牙设备写数据（经个人验证，本次开发血压计，写数据、监听数据都没有用，不知道是设备的问题，还是LightBlue的问题，但都无所谓了，毕竟有了服务和特征的UUID，它的任务就完成了……）</p>
+<h1 id="开发："><a href="#开发：" class="headerlink" title="开发："></a>开发：</h1><h2 id="主要流程思路："><a href="#主要流程思路：" class="headerlink" title="主要流程思路："></a>主要流程思路：</h2><p>建立一个Central Manager实例进行蓝牙管理<br>搜索外围设备<br>连接外围设备<br>获得外围设备的服务<br>获得服务的特征<br>从外围设备读数据<br>给外围设备发送数据</p>
+<h2 id="上代码："><a href="#上代码：" class="headerlink" title="上代码："></a>上代码：</h2><p>注：本来想好好写写集成过程的代码，但是回头一想，集成代码出现在踩坑的文章中，好不专业，而且集成代码在网上<br>搜索能搜索出一大堆，非常完整、全面，瞬间没有了写下去的动力，回头想想那就不重复造轮子了吧，附上一篇文章，<br>过程大概就是这样：<br><a href="https://www.jianshu.com/p/87c30628ddaa" target="_blank" rel="noopener">https://www.jianshu.com/p/87c30628ddaa</a><br>作者辛苦！</p>
+<h1 id="坑："><a href="#坑：" class="headerlink" title="坑："></a>坑：</h1><p>下面主要说一下过程中遇到的坑：</p>
+<h2 id="1、搞准CBService的UUID"><a href="#1、搞准CBService的UUID" class="headerlink" title="1、搞准CBService的UUID"></a>1、搞准CBService的UUID</h2><p>连接好设备后，搜索CBService时候的UUID，开始做之前最好知道哪个服务的UUID是你需要的，这个第三方设备合作方或者蓝牙设备文档上面会告诉你。如果不知道服务的UUID，需要自己一个个试的话，那就要注意啦，因为设备上面有很多服务，可能有多个服务都具备读写属性甚至都支持通知，在这一步找到正确的UUID是十分关键的，如果这一步错了，后面肯定错。。。</p>
+<h2 id="2、查看特征支持"><a href="#2、查看特征支持" class="headerlink" title="2、查看特征支持"></a>2、查看特征支持</h2><p>找到服务之后要查看该服务下面的特征都支持什么属性，有了特征支持，就可以针对每个特征进行相应的操作。<br>提供一个打印特征支持的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">-(void)logCharacteristicProperties:(CBCharacteristicProperties)properties &#123;//查看特征支持</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyBroadcast) &#123;//广播</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyBroadcast&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyRead) &#123;//读</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyRead&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyWriteWithoutResponse) &#123;//写-没有响应</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyWriteWithoutResponse&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyWrite) &#123;//写</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyWrite&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyNotify) &#123;//通知</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyNotify&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyIndicate) &#123;//声明</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyIndicate&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyAuthenticatedSignedWrites) &#123;//通过验证的</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyAuthenticatedSignedWrites&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyExtendedProperties) &#123;//拓展</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyExtendedProperties&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyNotifyEncryptionRequired) &#123;//需要加密的通知</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyNotifyEncryptionRequired&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (properties &amp;CBCharacteristicPropertyIndicateEncryptionRequired) &#123;//需要加密的申明</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;CBCharacteristicPropertyIndicateEncryptionRequired&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、发送数据，无响应"><a href="#3、发送数据，无响应" class="headerlink" title="3、发送数据，无响应"></a>3、发送数据，无响应</h2><p>有些设备发送指令的时候会发现没有响应，甚至didWriteValueForCharacteristic<br>回调的值都是空，这种情况的一个原因是：有些设备需要<strong>先建立连接</strong>，才能执行后续操作，这个链接不是之前的已经链接好的蓝牙，是<strong>需要向外设发送一个连接指令</strong>，就比如我这次做的血压计开发，直接发送开始测量指令是不好使的，必须得先发送链接指令，等血压计响应之后，再发开始测量指令。。。</p>
+<p>一般情况下，我们发送的指令都是从字符串开始的，想发送给蓝牙，必须是NSData型，但好像转化的时候不是常见的转换方法，</p>
+<p>附上发送的指令转换方法：</p>
+<p><strong>//NSString类型转换成NSData</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">-(NSData*)stringToByte:(NSString*)string&#123;</span><br><span class="line"></span><br><span class="line">NSString *hexString=[[stringuppercaseString] stringByReplacingOccurrencesOfString:@&quot; &quot;withString:@&quot;&quot;];</span><br><span class="line"></span><br><span class="line">if ([hexString length]%2!=0) &#123;</span><br><span class="line"></span><br><span class="line">return nil;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Byte tempbyt[1]=&#123;0&#125;;</span><br><span class="line"></span><br><span class="line">NSMutableData* bytes=[NSMutableDatadata];</span><br><span class="line"></span><br><span class="line">for(int i=0;i&lt;[hexStringlength];i++)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">unichar hex_char1 = [hexStringcharacterAtIndex:i]; ////两位16进制数中的第一位(高位*16)</span><br><span class="line"></span><br><span class="line">int int_ch1;</span><br><span class="line"></span><br><span class="line">if(hex_char1 &gt;= &apos;0&apos; &amp;&amp; hex_char1 &lt;=&apos;9&apos;)</span><br><span class="line"></span><br><span class="line">int_ch1 = (hex_char1-48)*16;  //// 0 的Ascll - 48</span><br><span class="line"></span><br><span class="line">else if(hex_char1 &gt;= &apos;A&apos; &amp;&amp; hex_char1 &lt;=&apos;F&apos;)</span><br><span class="line"></span><br><span class="line">int_ch1 = (hex_char1-55)*16;//// A 的Ascll - 65</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">return nil;</span><br><span class="line"></span><br><span class="line">i++;</span><br><span class="line"></span><br><span class="line">unichar hex_char2 = [hexStringcharacterAtIndex:i]; ///两位16进制数中的第二位(低位)</span><br><span class="line"></span><br><span class="line">int int_ch2;</span><br><span class="line"></span><br><span class="line">if(hex_char2 &gt;= &apos;0&apos; &amp;&amp; hex_char2 &lt;=&apos;9&apos;)</span><br><span class="line"></span><br><span class="line">int_ch2 = (hex_char2-48);//// 0 的Ascll - 48</span><br><span class="line"></span><br><span class="line">else if(hex_char2 &gt;= &apos;A&apos; &amp;&amp; hex_char2 &lt;=&apos;F&apos;)</span><br><span class="line"></span><br><span class="line">int_ch2 = hex_char2-55;//// A 的Ascll - 65</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">return nil;</span><br><span class="line"></span><br><span class="line">tempbyt[0] = int_ch1+int_ch2; ///将转化后的数放入Byte数组里</span><br><span class="line"></span><br><span class="line">[bytes appendBytes:tempbytlength:1];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">return bytes;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>//NSData类型转换成NSString</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (NSString*)hexadecimalString:(NSData *)data&#123;</span><br><span class="line"></span><br><span class="line">NSString* result;</span><br><span class="line"></span><br><span class="line">const unsignedchar* dataBuffer = (const unsigned char*)[data bytes];</span><br><span class="line"></span><br><span class="line">if(!dataBuffer)&#123;</span><br><span class="line"></span><br><span class="line">return nil;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NSUInteger dataLength = [datalength];</span><br><span class="line"></span><br><span class="line">NSMutableString* hexString = [NSMutableStringstringWithCapacity:(dataLength * 2)];</span><br><span class="line"></span><br><span class="line">for(int i =0; i &lt; dataLength; i++)&#123;</span><br><span class="line"></span><br><span class="line">[hexString appendString:[NSStringstringWithFormat:@&quot;%02lx&quot;, (unsignedlong)dataBuffer[i]]];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">result = [NSString stringWithString:hexString];</span><br><span class="line"></span><br><span class="line">return result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4、处理蓝牙接收的信息"><a href="#4、处理蓝牙接收的信息" class="headerlink" title="4、处理蓝牙接收的信息"></a>4、处理蓝牙接收的信息</h2><p>一般收到的信息都是十六进制的数值，具体代表什么意思，蓝牙开发文档已经都写好了，如果没有文档的话，我也不知道怎么办了<br>十六进制转为十进制的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line">十六进制转化为十进制</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@param aHexString 需要转化的str</span><br><span class="line"></span><br><span class="line">@return 十进制数</span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">- (NSNumber *) numberHexString:(NSString *)aHexString&#123;</span><br><span class="line"></span><br><span class="line">// 为空,直接返回.</span><br><span class="line"></span><br><span class="line">if (nil == aHexString)&#123;</span><br><span class="line"></span><br><span class="line">return nil;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NSScanner * scanner = [NSScannerscannerWithString:aHexString];</span><br><span class="line"></span><br><span class="line">unsigned long long longlongValue;</span><br><span class="line"></span><br><span class="line">[scanner scanHexLongLong:&amp;longlongValue];</span><br><span class="line"></span><br><span class="line">//将整数转换为NSNumber,存储到数组中,并返回.</span><br><span class="line"></span><br><span class="line">NSNumber * hexNumber = [NSNumbernumberWithLongLong:longlongValue];</span><br><span class="line"></span><br><span class="line">return hexNumber;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+    
+        <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            
+                <span class="reward-type">
+                    <img class="wechat" src="../img/reward_wepay.jpg"><b>微信打赏</b>
+                </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">赞赏是不耍流氓的鼓励</p>
+</div>
+
+
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权，非商业转载请注明出处 © <a href target="_blank">CoolYang</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/04/20/iOS 右滑返回失效问题终极解决方案/" class="pre-post btn btn-default" title="iOS 右滑返回失效问题终极解决方案">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">iOS 右滑返回失效问题终极解决方案</span>
+        </a>
+    
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: '6nceXCpQcLmN2XAgUqJ0VdDq-gzGzoHsz',
+            appKey: 'wsTBBpHQ0trTMY5gyzmnigDD',
+            placeholder: '都到这儿了，说点什么吧~',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '15',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#蓝牙基础知识："><span class="toc-text">蓝牙基础知识：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#名词解释："><span class="toc-text">名词解释：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蓝牙开发的2种模式："><span class="toc-text">蓝牙开发的2种模式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务和特征-service-and-characteristic"><span class="toc-text">服务和特征(service and characteristic)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外设、服务（service）、特征（characteristic）的关系"><span class="toc-text">外设、服务（service）、特征（characteristic）的关系:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开发："><span class="toc-text">开发：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要流程思路："><span class="toc-text">主要流程思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上代码："><span class="toc-text">上代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#坑："><span class="toc-text">坑：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、搞准CBService的UUID"><span class="toc-text">1、搞准CBService的UUID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、查看特征支持"><span class="toc-text">2、查看特征支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、发送数据，无响应"><span class="toc-text">3、发送数据，无响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、处理蓝牙接收的信息"><span class="toc-text">4、处理蓝牙接收的信息</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

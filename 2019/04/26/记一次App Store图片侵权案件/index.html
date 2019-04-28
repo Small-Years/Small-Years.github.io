@@ -1,0 +1,392 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="CoolYang">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="iOS开发">
+
+
+    <meta name="description" content="事情背景 s觉z国 向App Store发邮件举报APP使用未授权图片最近他们公司发生的事想必已经有不少人知道了，像这种碰瓷公司的侵权销售模式，是活不了的
+开头先说一下收到侵权邮件之后怎么办：
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>记一次App Store图片侵权案件 | CoolYang</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="CoolYang" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?a765f170cc69bc2954f3f01f54978f72";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://lc-8l5bg9d2.cn-n1.lcfile.com/05e59daa621d2143f473.png)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="CoolYang">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 内行看门道，外行看人行道~ </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">CoolYang</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS开发/"><i class="fa "></i>iOS开发</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/记录/"><i class="fa "></i>记录</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="记一次App Store图片侵权案件">
+            
+	            记一次App Store图片侵权案件
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/记录/">记录</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/iOS开发/">iOS开发</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/04/26</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h1 id="事情背景"><a href="#事情背景" class="headerlink" title="事情背景"></a>事情背景</h1><p> <strong>s觉z国 向App Store发邮件举报APP使用未授权图片</strong><br>最近他们公司发生的事想必已经有不少人知道了，像这种碰瓷公司的侵权销售模式，是活不了的</p>
+<p>开头先说一下收到侵权邮件之后怎么办：</p>
+<p>1、及时回复邮件，如果不存在侵权就简单了，回邮件态度强硬，并让其出示证据。<br>2、如果存在侵权，将侵权内容删除，回复邮件。（个人认为，既然已经盯上了，就很难通过这种方式解决，毕竟要靠这个提升业绩不是么）<br>3、时常关注邮箱，时常关注邮箱，时常关注邮箱，重要的事情说三遍，其实这次从向我们APP发邮件提示开始，到被下架，有2个周+的时间，如果这段时间及时处理，可能不会走到被下架这个结局，但由于忽视了邮箱，APP被下架之后才发现，才导致现在这个结局。</p>
+<h1 id="代号解释"><a href="#代号解释" class="headerlink" title="代号解释"></a>代号解释</h1><p>s觉z国 : 以下用A公司来表示<br>某某APP：我公司被下架APP</p>
+<p>我方APP侵权地方，会定期发布一些科普文章，例如：<br><img src="https://img-blog.csdnimg.cn/20190425152528274.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NtYWxsX3llYXJz,size_16,color_FFFFFF,t_70" alt="APP内文章"><br>文章是公司运营定期发布的，图片是从网络上找的，不固定是什么网站，一般也就是百度，APP已经好几年了，最近才出这档子事，可能真和网络上说的一样，发现了也不说，先记着，等哪天攒够了，再向你发律师函…</p>
+<h1 id="邮件历史"><a href="#邮件历史" class="headerlink" title="邮件历史"></a>邮件历史</h1><p>下面曝一下和流氓公司的邮件往来历史：</p>
+<p>因为是公司的账号和产品，涉及公司信息和相关产品的部分将用代号来表示，这篇博客是个人技术博客，主要是通过阐述一下发生在我公司身上的事实，来总结一下此类问题的解决办法，归纳回复邮件时的模板样例。本人声明未有任何添油加醋，未偏袒任何一方，保持公正态度阐述事实。</p>
+<p>2019-04-02收到苹果邮件，APP已经被下架：</p>
+<blockquote>
+<p><strong>We regret that the dispute regarding the app listed below could not be resolved amicably between the parties.  We have removed your application from the App Store.  Note that per the terms of your agreement with Apple that Apple may remove your application from sale if we feel it is necessary or prudent to do so.</strong><br><strong>我们很遗憾，关于以下所列应用程序的争议未能在双方之间友好解决。我们已经将您的应用程序从App Store中移除。请注意，根据您与苹果的协议条款，如果我们认为有必要或谨慎地这么做，苹果可能会将您的应用程序从销售中删除。</strong></p>
+</blockquote>
+<p>历史：</p>
+<p>2019-03-13：</p>
+<blockquote>
+<p>From: A公司邮箱<br>Date: 2019-03-14 10:07<br>To: AppStoreNotices<br>Subject: Re: Apple Inc. (our ref# APP110347)<br>内容：<br><strong>Comments from Complainant: 某某APP涉及侵权使用我司版权图片490张，严重损害我司及相关权利人合法权益，现请求对某某APP做下架处理！</strong></p>
+</blockquote>
+<p>2019-03-14</p>
+<blockquote>
+<p>From: A公司邮箱<br>Date: 2019-03-14 10:07<br>To: AppStoreNotices<br>Subject: Re: Apple Inc. (our ref# APP110347)<br>Dear James，<br>内容：<br><strong>请尽快对 某某APP 做下架处理，谢谢!</strong></p>
+</blockquote>
+<p>2019-03-15</p>
+<blockquote>
+<p>From: App Disputes<br>Date: 2019-03-26 07:38<br>To: A公司邮箱<br>CC: 我公司邮箱<br>Subject: Apple Inc. (our ref# APP110347)<br>内容：<br><strong>Thank you for your response.  Unfortunately, Apple cannot serve as arbiter for disputes among third parties.  Please work directly with at the email address provided below to resolve any concerns you may have.（谢谢你的回复。不幸的是，苹果不能作为第三方纠纷的仲裁人。请直接该公司.(以下提供的电子邮件地址)联系，以解决您可能存在的任何问题。）</strong></p>
+</blockquote>
+<p>2019-03-25</p>
+<blockquote>
+<p>From: A公司邮箱<br>Subject: Re: Apple Inc. (our ref# APP110347)<br>Date: Mar 25, 2019 at 11:47 PM<br>To: <a href="mailto:AppStoreNotices@apple.com" target="_blank" rel="noopener">AppStoreNotices@apple.com</a><br>Cc: 我公司邮箱<br>内容：<br><strong>Dear Barry,<br>苹果公司无需作为第三方仲裁者调解该问题，侵权问题尚未解决，请尽快对某某APP做下架处理即可，谢谢！</strong></p>
+</blockquote>
+<p>2019-04-01</p>
+<blockquote>
+<p>APP被下架</p>
+</blockquote>
+<p>2019-04-02 （苹果发来邮件）</p>
+<blockquote>
+<p>From:  “AppStoreNotices”<a href="mailto:&#65;&#x70;&#x70;&#83;&#x74;&#x6f;&#114;&#x65;&#78;&#111;&#x74;&#105;&#x63;&#x65;&#x73;&#64;&#x61;&#112;&#112;&#x6c;&#101;&#46;&#x63;&#x6f;&#109;" target="_blank" rel="noopener">&#65;&#x70;&#x70;&#83;&#x74;&#x6f;&#114;&#x65;&#78;&#111;&#x74;&#105;&#x63;&#x65;&#x73;&#64;&#x61;&#112;&#112;&#x6c;&#101;&#46;&#x63;&#x6f;&#109;</a>;<br>Date:  Tue, Apr 2, 2019 02:28 AM<br>To:  我公司邮箱<br>Cc:  A公司邮箱;<br>Subject:  Apple Inc. (our ref# APP110347)<br> Dear Sir or Madam,<br>内容：<br><strong>If the matter is not resolved shortly, Apple may be forced to pull your application(s) from the App Store.（如果这个问题不能很快解决，苹果被迫将你的应用程序从App Store中撤下。）</strong></p>
+</blockquote>
+<p>2019-04-11 17:22<br>将APP中的问题处理好之后</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Date: 2019-04-11 17:22<br>To: A公司邮箱<br>CC: AppStoreNotices<br>Subject: Re:Apple Inc. (our ref# APP110347)<br>内容：<br><strong>我们已经将app内所有可能存在的侵权内容删除，请查看app的内容进行确认，如还有其他内容未能完全清除，请随时与我们沟通。会尽快处理存在的问题。</strong></p>
+</blockquote>
+<p>37分钟后：<br>2019-04-11 17:59</p>
+<blockquote>
+<p>From: A公司邮箱<br>Date: 2019-04-11 17:22<br>To: AppStoreNotices <a href="mailto:&#65;&#112;&#112;&#83;&#x74;&#111;&#114;&#x65;&#78;&#x6f;&#116;&#x69;&#99;&#x65;&#115;&#64;&#97;&#x70;&#x70;&#x6c;&#101;&#46;&#x63;&#111;&#109;" target="_blank" rel="noopener">&#65;&#112;&#112;&#83;&#x74;&#111;&#114;&#x65;&#78;&#x6f;&#116;&#x69;&#99;&#x65;&#115;&#64;&#97;&#x70;&#x70;&#x6c;&#101;&#46;&#x63;&#111;&#109;</a><br>CC: 我公司邮箱<br>内容：<br>Dear  Barry<br><strong>侵权问题并未得到解决，请保持下架状态！</strong></p>
+</blockquote>
+<p>2019-04-12  8:57</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Date: 2019-04-12 08:57<br>To: AppStoreNotices<br>CC: A公司邮箱<br>Subject: Re: Re:Apple Inc. (our ref# APP110347)<br>内容：<br><strong>Hi Barry,<br>你可以看一下国内的新闻报道<br><a href="https://3g.china.com/act/news/945/20190412/35645514.html?shouye" target="_blank" rel="noopener">https://3g.china.com/act/news/945/20190412/35645514.html?shouye</a><br>他们公司就是专门拿着各种各样版权去打专利战的流氓公司，他们的网站「<a href="https://www.vcg.com/" target="_blank" rel="noopener">https://www.vcg.com/</a> 」 目前也处于整改状态无法打开，他们公司的业绩全都是以打各种专利战得来的盈利。<br>这是另外一篇报道：<br><a href="https://baijiahao.baidu.com/s?id=1630563914916668793&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1630563914916668793&amp;wfr=spider&amp;for=pc</a><br>就连中国的国旗、国徽都是他们公司的版权，已经被国内相关相关部门约谈，<br><a href="https://baijiahao.baidu.com/s?id=1630563670103647549&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1630563670103647549&amp;wfr=spider&amp;for=pc</a><br>全世界首张黑洞图片也已经被他们拥有了版权，就这么一家流氓公司提出的一异议就把我们的app下架，这样未免有点太过分了。<br>况且，我们app内所有可能侵犯他们独家版权的内容都已经全部删除，app内已经完全不存在侵权内容。如果还有未删除的内容，请  A公司 提供相应的版权证明，如果无法提供，请苹果公司尽快把我们app上架。<br>我们公司隶属于xxx公司，《某某》app为全国绝大多数出院患者提供院外的随诊和健康保障，我们做的事情是有意义的，是光明正大的，请尽快把我们app上架。<br>如果还不能上架，我们会向国家网信部及有关部门投诉，app的下架已经对我们的公司造成了不便。</strong></p>
+</blockquote>
+<p>一小时后：<br>2019-04-12  9:55</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Date: 2019-04-12 08:57<br>To: AppStoreNotices<br>CC: A公司邮箱<br>Subject: Re: Re:Apple Inc. (our ref# APP110347)<br><strong>Dear Barry，<br>某某APP的图片侵权问题我司已经全部做好司法取证，证据确凿，请保持某某APP下架状态直至该侵权问题完全解决!<br>Best regards!</strong></p>
+</blockquote>
+<p>2019-04-11</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Subject: Re: Re:Apple Inc. (our ref# APP110347)<br>Date: Apr 11, 2019 at 6:27 AM<br>To: A公司邮箱<br>Cc: <a href="mailto:AppStoreNotices@apple.com" target="_blank" rel="noopener">AppStoreNotices@apple.com</a><br>内容：<br><strong>您好：<br>请您提供app侵权内容的截图，app内的所有侵权内容已经全部删除，如果还有其他侵权内容请给出证明，或者给出侵权部分的功能出处，我们会进一步清除app内的侵权内容；如果没有了请不要恶意诽谤，这样做既不诚实，也不道德。<br>请求重新上架app。</strong></p>
+</blockquote>
+<p>2019-04-16</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Subject: Re:Apple Inc. (our ref# APP110347)<br>Date: Apr 16, 2019 at 7:00 PM<br>To: <a href="mailto:AppStoreNotices@apple.com" target="_blank" rel="noopener">AppStoreNotices@apple.com</a><br>内容<br><strong>Hi Barry,<br>我们的app已经清除了所有可能侵犯版权的内容，能否帮忙尽快处理，app已经下架一周的时间了。<br>能不能给一个处理的时间范围，大约什么时候能处理完。<br>期待你的回复</strong></p>
+</blockquote>
+<p>2019-04-17</p>
+<blockquote>
+<p>From: 我公司邮箱<br>Subject: app相关问题已解决，请尽快处理！(our ref# APP110347)<br>Date: Apr 17, 2019 at 11:33 PM<br>To: <a href="mailto:AppStoreNotices@apple.com" target="_blank" rel="noopener">AppStoreNotices@apple.com</a><br><strong>Hi Barry,<br>我们app已经下架7天了，能不能尽快处理一下，我们app是专门针对出院患者研发了，在出院之后会追踪患者的健康状态，现在下架一周了，能不能尽快协助处理一下。我们app已经没什么问题了。<br>期待你的回复</strong></p>
+</blockquote>
+<p>2019-04-19</p>
+<blockquote>
+<p><strong>Your app was removed from sale by Apple because we did not receive confirmation from A公司 that this matter had been resolved.  However, upon receipt of written notification from A公司 agreeing that the changes made to your app resolve this matter to A公司’s satisfaction, we may return your app to the App Store.  Please notify A公司 directly of your changes and have A公司 email us at <a href="mailto:appstorenotices@apple.com" target="_blank" rel="noopener">appstorenotices@apple.com</a>.<br>Sincerely,<br>James</strong><br><strong>(意思就是没有收到申诉公司的确认邮件，无法恢复上架)</strong></p>
+</blockquote>
+<p>2019-04-12  ~  2019-04-20  期间</p>
+<h1 id="解决方案小试"><a href="#解决方案小试" class="headerlink" title="解决方案小试"></a>解决方案小试</h1><p>1、APP增加新版本后上架 ：<br><img src="https://img-blog.csdnimg.cn/20190425150234314.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NtYWxsX3llYXJz,size_16,color_FFFFFF,t_70" alt="不允许提交审核"><br>2、给苹果打电话，他们也没法解决，除非A公司声明APP已经不再侵权<br>3、领导和A公司交涉，A公司一口价要45万，否则免谈</p>
+<p>此时距离A公司最后一次发邮件已经13 + 天了，A公司再也没有回复邮件。</p>
+<h1 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h1><p>经过多次的交涉之后，事情陷入了死循环，review那边必须要等到某某的申明邮件才能确认为不侵权，APP才能重新上架，但是要等到它去回复邮件，那是不可能的，张口就要四十几万！钱没到账，无论如何他是不会去主动回复的，反正它就耗着，什么都不损失，但是咱们的APP耗不起啊，越想越气，写着文章的时候就去它官方微博看了看，发现底下各方人士都在怼，怼到已经关闭评论，莫名的松了口气，好开心…</p>
+<p>没别的办法，APP只能重新上架，改BundleID，新建应用，提交审核，苹果那边现在还没有结果，希望不会被认定为重复应用</p>
+
+    </div>
+    
+        <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            
+                <span class="reward-type">
+                    <img class="wechat" src="../img/reward_wepay.jpg"><b>微信打赏</b>
+                </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">赞赏是不耍流氓的鼓励</p>
+</div>
+
+
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权，非商业转载请注明出处 © <a href target="_blank">CoolYang</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/04/20/iOS 右滑返回失效问题终极解决方案/" class="next-post btn btn-default" title="iOS 右滑返回失效问题终极解决方案">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">iOS 右滑返回失效问题终极解决方案</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: '6nceXCpQcLmN2XAgUqJ0VdDq-gzGzoHsz',
+            appKey: 'wsTBBpHQ0trTMY5gyzmnigDD',
+            placeholder: '都到这儿了，说点什么吧~',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '15',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事情背景"><span class="toc-text">事情背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代号解释"><span class="toc-text">代号解释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#邮件历史"><span class="toc-text">邮件历史</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决方案小试"><span class="toc-text">解决方案小试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结果："><span class="toc-text">结果：</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
