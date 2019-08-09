@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="CoolYang">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content>
+
+
+    <meta name="description" content="iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题——–终极解决方案
+需求是做一个编辑图片功能，结果好不容易各种搜索实现了功能，结果发现一个无解的问题，...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>iOS图片打马赛克的实现方式--------终极解决方案 | CoolYang</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="CoolYang" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?a765f170cc69bc2954f3f01f54978f72";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://lc-8l5bg9d2.cn-n1.lcfile.com/05e59daa621d2143f473.png)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="CoolYang">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 内行看门道，外行看人行道~ </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">CoolYang</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/iOS开发/"><i class="fa "></i>iOS开发</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/记录/"><i class="fa "></i>记录</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="iOS图片打马赛克的实现方式--------终极解决方案">
+            
+	            iOS图片打马赛克的实现方式--------终极解决方案
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/09</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题"><a href="#iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题" class="headerlink" title="iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题"></a>iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题</h4><p>——–终极解决方案</p>
+<p>需求是做一个编辑图片功能，结果好不容易各种搜索实现了功能，结果发现一个无解的问题，保存图片的时候原图分辨率丢失了，生成就是用UIGraphicsGetImageFromCurrentImageContext()生成了一张屏幕大小尺寸的图，不用想，这种方式出来的图，分辨率肯定是丢失了的（手机截图除外~），在网上找了好多大牛写的博客看了好多发现基本都是这种方法，很奇怪，难道就没人提过这个问题吗😂</p>
+<p>个人整合了一下代码，实现了一种性能和功能都不错的图片马赛克编辑器<br>效果图：<br><img src="https://img-blog.csdnimg.cn/20190128154902711.gif" alt="效果图"></p>
+<h4 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能:"></a>实现功能:</h4><ul>
+<li>马赛克画笔功能，可自定义马赛克图案 ，马赛克大小</li>
+<li>编辑器可放大，放大后双指移动视图，单指画马赛克</li>
+<li>上一步，下一步</li>
+<li>实现了对原图做处理功能，并不是失真保存图案</li>
+<li>优化了处理时 CPU 占用太高问题</li>
+</ul>
+<h4 id="马赛克画笔思路"><a href="#马赛克画笔思路" class="headerlink" title="马赛克画笔思路"></a>马赛克画笔思路</h4><p>在实时显示时候，使用 CAShapeLayer 与 mask 蒙版的结合，达到马赛克画笔功能，在每一笔画完时候，使用 -drawRect 生成一张原图片大小的画布，在上面抠出马赛克画笔的路径，然后将马赛克图案与原图融合，达到马赛克效果。</p>
+<p>Q:为什么要生成原图?</p>
+<p>因为当前实时显示的马赛克效果，是原图按比例缩小到屏幕尺寸显示出来的，实际上，如果需要对原图处理，需要将移动路径点重新乘上缩小的比例，那么实时显示的点才是对应原图上的点<br>生成的图，并不是通过layer渲染的失真缩小图，网上马赛克功能的实现方式很多错在了这一步，这也是生成的图片失真的原因</p>
+<p>重点: 当选择 A 马赛克图案作为画笔纹理时候，其实就是将马赛克图案作为一个 layer 寄宿图加载出来，通过mask蒙版遮住路径以外的位置，那么看到的是，路径所显示马赛克底图的路径了。每次画笔画完，都会保存一张每一笔处理完马赛克与原图的融合图，下次替换马赛克图案时候，如上面初始化方法，将上一笔生层融合图作为原图，新马赛克图案再作为layer，绘制新的马赛克。</p>
+<p>图层：<br><img src="https://img-blog.csdnimg.cn/20190128115102680.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NtYWxsX3llYXJz,size_16,color_FFFFFF,t_70" alt="图层示例"></p>
+<p>使用介绍 和  demo地址：<br><a href="https://github.com/Small-Years/YJMosaicView" target="_blank" rel="noopener">https://github.com/Small-Years/YJMosaicView</a></p>
+<p>具体更深层次的实现原理问题，内存暴涨原因等，以下文章有非常详细的介绍：<br><a href="http://isylar.com/2018/04/03/iOSMosaiImagePen/" target="_blank" rel="noopener">http://isylar.com/2018/04/03/iOSMosaiImagePen/</a></p>
+<p>个人经验，希望能帮到需要的人！</p>
+
+    </div>
+    
+        <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            
+                <span class="reward-type">
+                    <img class="wechat" src="../img/reward_wepay.jpg"><b>微信打赏</b>
+                </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">赞赏是不耍流氓的鼓励</p>
+</div>
+
+
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权，非商业转载请注明出处 © <a href target="_blank">CoolYang</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/04/26/记一次App Store图片侵权案件/" class="next-post btn btn-default" title="记一次App Store图片侵权案件">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">记一次App Store图片侵权案件</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: '6nceXCpQcLmN2XAgUqJ0VdDq-gzGzoHsz',
+            appKey: 'wsTBBpHQ0trTMY5gyzmnigDD',
+            placeholder: '都到这儿了，说点什么吧~',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '15',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题"><span class="toc-text">iOS图片打马赛克分辨率丢失，图片编辑完成之后保存原图分辨率方案，绘画时内存暴增导致闪退问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现功能"><span class="toc-text">实现功能:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#马赛克画笔思路"><span class="toc-text">马赛克画笔思路</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
